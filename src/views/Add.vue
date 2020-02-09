@@ -1,9 +1,8 @@
 <template>
   <div class="lista-osob">
+    <DodajOsobe />
     <span>===============to jest właściwa lista osób ze store===========</span>
     <ListaOsob />
-    <span>==============================================================</span>
-    <DodajOsobe />
   </div>
 </template>
 

@@ -36,7 +36,7 @@ export default new Vuex.Store({
         last_name: "Carney",
         birthdate: "26.01.1970",
         gender: "female",
-        hobby: "react"
+        hobby: "angular"
       }
     ]
   },
