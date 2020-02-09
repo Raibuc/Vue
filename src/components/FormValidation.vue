@@ -2,9 +2,6 @@
 </template>
 
 <script>
-import default {
-    
-}
 </script>
 
 <style scoped>
