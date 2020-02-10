@@ -91,6 +91,9 @@
                   value="Kobieta"
                   >Kobieta</b-form-radio
                 >
+                <span v-if="!$v.user.radio.required"
+                  >Wybór jest obowiązkowy</span
+                >
                 <div class="mt-3">
                   Wybrałeś: <strong>{{ user.radio }}</strong>
                 </div>
@@ -100,6 +103,9 @@
                   v-model="user.hobby"
                   :options="user.options"
                 ></b-form-select>
+                <span v-if="!$v.user.hobby.required"
+                  >Wybór jest obowiązkowy</span
+                >
                 <div class="mt-3">
                   Wybrałeś: <strong>{{ user.hobby }}</strong>
                 </div>
@@ -125,7 +131,6 @@ export default {
       user: {
         firstName: "",
         lastName: "",
-        email: "",
         date: "",
         radio: "",
         hobby: null,
@@ -146,11 +151,21 @@ export default {
       date: {
         required,
         maxValue: maxValue(new Date())
-      }
+      },
+      hobby: { required },
+      radio: { required }
     }
   },
   methods: {
-    handleSubmit() {}
+    handleSubmit() {
+      this.submitted = true;
+
+      // stop here if form is invalid
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+    }
   }
 };
 </script>
