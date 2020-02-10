@@ -1,7 +1,6 @@
 <template>
   <div class="lista-osob">
     <DodajOsobe />
-    <span>===============to jest właściwa lista osób ze store===========</span>
     <ListaOsob />
   </div>
 </template>
@@ -14,7 +13,9 @@ import DodajOsobe from "@/components/DodajOsobe.vue";
 import BootstrapVue from "bootstrap-vue/dist/bootstrap-vue.esm";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import Vuelidate from "vuelidate";
 
+Vue.use(Vuelidate);
 Vue.use(BootstrapVue);
 
 export default {

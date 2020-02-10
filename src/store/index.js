@@ -12,7 +12,7 @@ export default new Vuex.Store({
         last_name: "Macdonald",
         birthdate: "12.02.1977",
         gender: "male",
-        hobby: "react, vue"
+        hobby: "vue"
       },
       {
         id: 2,
@@ -28,7 +28,7 @@ export default new Vuex.Store({
         last_name: "Wilson",
         birthdate: "24.06.1982",
         gender: "female",
-        hobby: "react, vue"
+        hobby: "react"
       },
       {
         id: 4,
