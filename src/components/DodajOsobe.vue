@@ -5,7 +5,7 @@
         <div class="col-sm-8 offset-sm-2">
           <div>
             <h2>Dodaj osobę</h2>
-            <form @submit.prevent="handleSubmit">
+            <form>
               <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input
@@ -58,26 +58,6 @@
                   >
                 </div>
               </div>
-              <div class="form-group">
-                <label for="password">Birthdate</label>
-                <input
-                  type="date"
-                  v-model="user.date"
-                  id="date"
-                  name="date"
-                  class="form-control"
-                  :class="{
-                    'is-invalid': submitted && $v.user.date.$error
-                  }"
-                />
-                <div
-                  v-if="submitted && $v.user.date.$error"
-                  class="invalid-feedback"
-                >
-                  <span v-if="!$v.user.date.required">Date is required</span>
-                  <span v-if="!$v.user.date.maxValue">Nieprawidłowa data</span>
-                </div>
-              </div>
               <b-form-group label="Płeć">
                 <b-form-radio
                   v-model="user.radio"
@@ -110,8 +90,39 @@
                   Wybrałeś: <strong>{{ user.hobby }}</strong>
                 </div>
               </div>
+              <div class="akapit">puste</div>
               <div class="form-group">
-                <button class="btn btn-primary">Zapisz osobę</button>
+                <label for="lastName">Data urodzenia</label>
+                <v-date-picker
+                  v-model="user.date"
+                  :max-date="new Date()"
+                  :input-props="{
+                    class: 'form-control',
+                    placeholder: 'Wpisz datę urodzenia'
+                  }"
+                  :class="{
+                    'is-invalid': submitted && $v.user.date.$error
+                  }"
+                />
+              </div>
+              <div
+                v-if="submitted && $v.user.date.$error"
+                class="invalid-feedback"
+              >
+                <span v-if="!$v.user.date.required">Date is required</span>
+              </div>
+              <div class="form-group">
+                <button
+                  @click.prevent="
+                    save();
+                    clear();
+                    handleSubmit();
+                    dodaj();
+                  "
+                  class="btn btn-primary"
+                >
+                  Zapisz osobę
+                </button>
               </div>
             </form>
           </div>
@@ -122,7 +133,11 @@
 </template>
 
 <script>
-import { required, alpha, minLength, maxValue } from "vuelidate/lib/validators";
+import { required, alpha, minLength } from "vuelidate/lib/validators";
+import Vue from "vue";
+import VCalendar from "v-calendar";
+
+Vue.use(VCalendar);
 
 export default {
   name: "app",
@@ -149,8 +164,7 @@ export default {
       firstName: { required, alpha, minLength: minLength(3) },
       lastName: { required, alpha, minLength: minLength(3) },
       date: {
-        required,
-        maxValue: maxValue(new Date())
+        required
       },
       hobby: { required },
       radio: { required }
@@ -160,12 +174,44 @@ export default {
     handleSubmit() {
       this.submitted = true;
 
-      // stop here if form is invalid
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
+    },
+    save() {
+      var fn = this.user.firstName;
+      var ln = this.user.lastName;
+      var bd = this.user.date;
+      var gd = this.user.radio;
+      var hb = this.user.hobby;
+
+      this.$store.state.items.push({
+        first_name: fn,
+        last_name: ln,
+        birthdate: bd,
+        gender: gd,
+        hobby: hb
+      });
+    },
+    clear() {
+      (this.user.firstName = ""),
+        (this.user.lastName = ""),
+        (this.user.date = ""),
+        (this.user.radio = ""),
+        (this.user.hobby = null);
+    },
+    dodaj() {
+      this.$store.commit("dodaj", this.user);
     }
   }
 };
 </script>
+<style lang="scss">
+.btn-primary {
+  margin-top: 20px;
+}
+.akapit {
+  color: transparent;
+}
+</style>

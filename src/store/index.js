@@ -40,7 +40,11 @@ export default new Vuex.Store({
       }
     ]
   },
-  mutations: {},
+  mutations: {
+    dodaj(state, user) {
+      state.items.push(user);
+    }
+  },
   actions: {},
   modules: {}
 });
